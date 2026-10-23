@@ -1,23 +1,66 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="Music Mode logo">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="Music Mode logo: a PC fan with a music note">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#24283b"/>
-      <stop offset="1" stop-color="#1a1b26"/>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2a2f4a"/>
+      <stop offset="1" stop-color="#15161f"/>
     </linearGradient>
-    <path id="blade" d="M64 64 C60 50 52 36 62 26 C72 18 84 26 80 40 C77 50 70 56 64 64 Z"/>
+    <linearGradient id="sheen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity=".10"/>
+      <stop offset=".5" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="2.5" stdDeviation="2.5" flood-color="#000" flood-opacity=".45"/>
+    </filter>
+    <linearGradient id="blade" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#9fe2ff"/>
+      <stop offset="1" stop-color="#5b8def"/>
+    </linearGradient>
+    <radialGradient id="well" cx=".5" cy=".5" r=".5">
+      <stop offset=".7" stop-color="#0f1018"/>
+      <stop offset="1" stop-color="#1b1d2b"/>
+    </radialGradient>
+    <linearGradient id="badge" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#d4b8ff"/>
+      <stop offset="1" stop-color="#9d7cd8"/>
+    </linearGradient>
+    <linearGradient id="hub" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3b4261"/>
+      <stop offset="1" stop-color="#1f2335"/>
+    </linearGradient>
   </defs>
+  
   <rect x="4" y="4" width="120" height="120" rx="28" fill="url(#bg)"/>
-  <rect x="4" y="4" width="120" height="120" rx="28" fill="none" stroke="#7dcfff" stroke-opacity=".35" stroke-width="2"/>
-  <circle cx="64" cy="64" r="46" fill="none" stroke="#414868" stroke-width="3"/>
-  <g fill="#7dcfff" fill-opacity=".9">
-    <use href="#blade"/>
-    <use href="#blade" transform="rotate(72 64 64)"/>
-    <use href="#blade" transform="rotate(144 64 64)"/>
-    <use href="#blade" transform="rotate(216 64 64)"/>
-    <use href="#blade" transform="rotate(288 64 64)"/>
+  <rect x="4" y="4" width="120" height="120" rx="28" fill="url(#sheen)"/>
+  <rect x="4.75" y="4.75" width="118.5" height="118.5" rx="27.25" fill="none" stroke="#7dcfff" stroke-opacity=".28" stroke-width="1.5"/>
+  <!-- fan frame -->
+  <g transform="translate(4 4)">
+    <rect x="12" y="12" width="96" height="96" rx="18" fill="#1f2335" stroke="#3b4261" stroke-width="1.5"/>
+    <g fill="#0f1018" stroke="#3b4261" stroke-width="1.2">
+      <circle cx="22.5" cy="22.5" r="3.6"/><circle cx="97.5" cy="22.5" r="3.6"/>
+      <circle cx="22.5" cy="97.5" r="3.6"/><circle cx="97.5" cy="97.5" r="3.6"/>
+    </g>
+    <circle cx="60" cy="60" r="42" fill="url(#well)" stroke="#414868" stroke-width="2"/>
+    <g fill="url(#blade)" stroke="#0f1018" stroke-width="1" stroke-linejoin="round">
+      <path d="M60.00,47.00 Q71.84,35.73 77.37,27.33 A37 37 0 0 1 92.67,42.63 Q79.90,46.58 66.50,48.74 A13 13 0 0 0 60.00,47.00 Z"/>
+      <path d="M70.16,51.89 Q86.35,54.12 96.37,53.21 A37 37 0 0 1 93.95,74.71 Q82.90,67.19 72.85,58.06 A13 13 0 0 0 70.16,51.89 Z"/>
+      <path d="M72.67,62.89 Q81.03,76.94 87.98,84.20 A37 37 0 0 1 69.67,95.72 Q68.66,82.38 69.53,68.84 A13 13 0 0 0 72.67,62.89 Z"/>
+      <path d="M65.64,71.71 Q59.87,87.00 58.52,96.97 A37 37 0 0 1 38.10,89.82 Q47.90,80.72 59.03,72.96 A13 13 0 0 0 65.64,71.71 Z"/>
+      <path d="M54.36,71.71 Q38.81,76.73 30.18,81.90 A37 37 0 0 1 23.03,61.48 Q36.25,63.46 49.26,67.32 A13 13 0 0 0 54.36,71.71 Z"/>
+      <path d="M47.33,62.89 Q33.71,53.86 24.28,50.33 A37 37 0 0 1 35.80,32.02 Q42.49,43.59 47.58,56.17 A13 13 0 0 0 47.33,62.89 Z"/>
+      <path d="M49.84,51.89 Q48.41,35.62 45.29,26.05 A37 37 0 0 1 66.79,23.63 Q61.91,36.08 55.25,47.90 A13 13 0 0 0 49.84,51.89 Z"/>
+    </g>
+    <circle cx="60" cy="60" r="13" fill="url(#hub)" stroke="#7dcfff" stroke-opacity=".6" stroke-width="1.5"/>
+    <circle cx="60" cy="60" r="4" fill="#7dcfff" fill-opacity=".85"/>
   </g>
-  <circle cx="64" cy="64" r="9" fill="#1a1b26" stroke="#7dcfff" stroke-width="3"/>
-  <!-- music note badge -->
-  <circle cx="96" cy="96" r="22" fill="#bb9af7" stroke="#1a1b26" stroke-width="4"/>
-  <path d="M92 106 a5 4.2 0 1 1 0 -0.1 V86 l12 -3 v17 a5 4.2 0 1 1 0 -0.1 V88 l-8 2 Z" fill="#1a1b26"/>
+  <!-- music badge -->
+  <g filter="url(#shadow)">
+    <circle cx="97" cy="97" r="21" fill="url(#badge)" stroke="#15161f" stroke-width="3.5"/>
+  </g>
+  <g fill="#1a1b26">
+    <path d="M90.5 87.5 L106 84 V88.6 L90.5 92.1 Z"/>
+    <rect x="90.5" y="88" width="2.6" height="17"/>
+    <rect x="103.4" y="85" width="2.6" height="17"/>
+    <ellipse cx="88.4" cy="105.2" rx="4.4" ry="3.4" transform="rotate(-20 88.4 105.2)"/>
+    <ellipse cx="101.3" cy="102.2" rx="4.4" ry="3.4" transform="rotate(-20 101.3 102.2)"/>
+  </g>
 </svg>
