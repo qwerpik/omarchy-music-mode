@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+# Toggle CoolerControl between the "Stock" and "Music" modes.
+# Usage: music-mode [status|toggle|music|stock]
+set -euo pipefail
+
+api=${MUSIC_MODE_API:-http://localhost:11987}
+user=${MUSIC_MODE_USER:-CCAdmin}
+music_name=${MUSIC_MODE_MUSIC:-Music}
+stock_name=${MUSIC_MODE_STOCK:-Stock}
+password_file=${MUSIC_MODE_PASSWORD_FILE:-${XDG_CONFIG_HOME:-$HOME/.config}/music-mode/password}
+
+case "${1:-status}" in
+  status|toggle|music|stock) ;;
+  *) echo "usage: music-mode [status|toggle|music|stock]" >&2; exit 2 ;;
+esac
+
+password=$(<"$password_file")
+jar=$(mktemp); trap 'rm -f "$jar"' EXIT
+
+# Credentials go through stdin so they never show up in the process list.
+credentials=$user:$password
+credentials=${credentials//\\/\\\\}
+printf 'user = "%s"\n' "${credentials//\"/\\\"}" |
+  curl -sf -K - -c "$jar" -X POST "$api/login" -o /dev/null
+modes=$(curl -sf -b "$jar" "$api/modes")
+active=$(curl -sf -b "$jar" "$api/modes-active")
+uid_of() { jq -er --arg n "$1" '.modes[] | select(.name == $n) | .uid' <<<"$modes"; }
+music_uid=$(uid_of "$music_name") || { echo "music-mode: no CoolerControl mode named '$music_name'" >&2; exit 1; }
+stock_uid=$(uid_of "$stock_name") || { echo "music-mode: no CoolerControl mode named '$stock_name'" >&2; exit 1; }
+current=$(jq -r .current_mode_uid <<<"$active")
+
+activate() { curl -sf -b "$jar" -X POST "$api/modes-active/$1" -o /dev/null; }
+
+case "${1:-status}" in
+  toggle) if [[ $current == "$music_uid" ]]; then activate "$stock_uid"; else activate "$music_uid"; fi ;;
+  music) activate "$music_uid" ;;
+  stock) activate "$stock_uid" ;;
+esac
+
+if [[ ${1:-status} != status ]]; then
+  omarchy-shell -q user.music-mode refresh >/dev/null 2>&1 || true
+  current=$(curl -sf -b "$jar" "$api/modes-active" | jq -r .current_mode_uid)
+fi
+if [[ $current == "$music_uid" ]]; then echo '{"music":true}'; else echo '{"music":false}'; fi

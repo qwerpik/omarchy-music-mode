@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+# Switch CoolerControl back to Stock if the CPU or GPU stays hot while Music mode is on.
+set -uo pipefail
+
+limit=${MUSIC_GUARD_LIMIT:-70}         # °C
+hold=${MUSIC_GUARD_HOLD:-10}           # seconds above the limit before switching
+interval=${MUSIC_GUARD_INTERVAL:-2}    # seconds between readings
+hwmon_root=${MUSIC_GUARD_HWMON_ROOT:-/sys/class/hwmon}
+
+hwmon() { grep -lx "$1" "$hwmon_root"/hwmon*/name 2>/dev/null | head -1 | xargs -r dirname; }
+# First existing input of a sensor, e.g. Tccd1 (what btop shows) before Tctl.
+sensor() {
+  local dir; dir=$(hwmon "$1")
+  for input in "${@:2}"; do
+    [[ -n $dir && -r $dir/$input ]] && { echo "$dir/$input"; return; }
+  done
+}
+cpu=${MUSIC_GUARD_CPU:-$(sensor k10temp temp3_input temp1_input)}
+[[ -n $cpu ]] || cpu=$(sensor coretemp temp1_input)
+gpu=${MUSIC_GUARD_GPU:-$(sensor amdgpu temp1_input)}   # edge
+[[ -n $cpu || -n $gpu ]] || { echo "music-mode-guard: no CPU or GPU temperature sensor found" >&2; exit 1; }
+echo "music-mode-guard: limit ${limit}°C for ${hold}s · CPU ${cpu:-none} · GPU ${gpu:-none}"
+
+read_c() {
+  local milli=0
+  [[ -n $1 ]] && milli=$(cat "$1" 2>/dev/null || echo 0)
+  echo $(( milli / 1000 ))
+}
+
+hot_for=0
+while sleep "$interval"; do
+  c=$(read_c "$cpu")
+  g=$(read_c "$gpu")
+  if (( c > limit || g > limit )); then
+    hot_for=$(( hot_for + interval ))
+  else
+    hot_for=0
+  fi
+  (( hot_for >= hold )) || continue
+  hot_for=0
+  if [[ $(music-mode status 2>/dev/null) == '{"music":true}' ]]; then
+    music-mode stock >/dev/null
+    notify-send -i dialog-warning "Music mode off" "Temps above ${limit}°C (CPU ${c}°C, GPU ${g}°C), fans back to stock."
+  fi
+done

@@ -1,0 +1,33 @@
+{
+  "_comment": "Reference values of the Music mode on a Ryzen 5 5600X + MSI board (nct6687). Device UIDs are machine-specific, so recreate these in the CoolerControl UI; see docs/COOLERCONTROL.md.",
+  "function": {
+    "name": "Music Smooth",
+    "f_type": "Standard",
+    "response_delay": 4,
+    "deviance": 3.0,
+    "duty_minimum": 1,
+    "duty_maximum": 3,
+    "threshold_hopping": true,
+    "only_downward": false
+  },
+  "profiles": [
+    {
+      "name": "Music CPU Fan",
+      "p_type": "Graph",
+      "temp_source": "CPU temp1 (Tctl)",
+      "function": "Music Smooth",
+      "speed_profile": [[30, 25], [60, 28], [70, 40], [78, 65], [85, 100]]
+    },
+    {
+      "name": "Music Case Fan",
+      "p_type": "Graph",
+      "temp_source": "CPU temp1 (Tctl)",
+      "function": "Music Smooth",
+      "speed_profile": [[30, 32], [60, 33], [70, 45], [78, 65], [85, 100]]
+    }
+  ],
+  "modes": {
+    "Stock": "no channel overrides: the board's own fan control",
+    "Music": {"nct6687 fan1 (CPU)": "Music CPU Fan", "nct6687 fan3 (case)": "Music Case Fan"}
+  }
+}

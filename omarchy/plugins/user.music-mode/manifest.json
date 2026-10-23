@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "user.music-mode",
+  "name": "Music Mode",
+  "version": "1.0.0",
+  "description": "Toggle CoolerControl between Stock and quiet Music fan modes",
+  "kinds": ["bar-widget"],
+  "entryPoints": {"barWidget": "Widget.qml"},
+  "barWidget": {
+    "displayName": "Music Mode",
+    "category": "Status",
+    "allowMultiple": false,
+    "defaultSection": "right"
+  }
+}

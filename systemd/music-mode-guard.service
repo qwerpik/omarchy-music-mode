@@ -1,0 +1,12 @@
+[Unit]
+Description=Turn off Music fan mode when temperatures get high
+After=graphical-session.target
+
+[Service]
+ExecStart=@BINDIR@/music-mode-guard
+Environment=PATH=@BINDIR@:/usr/local/bin:/usr/bin
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target

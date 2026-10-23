@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 340" width="640" height="340" role="img" aria-label="Music mode fan curves: duty rises slowly to 28 to 33 percent at 60 degrees, then ramps to 100 percent at 85 degrees">
+<style>
+  .bg { fill: #fcfcfb; } .grid { stroke: #e6e5e0; } .limit { stroke: #8a897f; }
+  .s-cpu { stroke: #2a78d6; } .f-cpu { fill: #2a78d6; } .s-case { stroke: #eb6834; } .f-case { fill: #eb6834; }
+  .ring { stroke: #fcfcfb; }
+  text { font-family: ui-sans-serif, -apple-system, "Segoe UI", Roboto, sans-serif; font-size: 12px; fill: #6b6a64; }
+  .title, .lab, .ink { fill: #1f1f1e; } .title { font-size: 14px; font-weight: 600; } .lab { font-weight: 600; }
+  @media (prefers-color-scheme: dark) {
+    .bg { fill: #1a1a19; } .grid { stroke: #2e2e2c; } .ring { stroke: #1a1a19; }
+    .s-cpu { stroke: #3987e5; } .f-cpu { fill: #3987e5; } .s-case { stroke: #d95926; } .f-case { fill: #d95926; }
+    text { fill: #a3a29a; } .title, .lab, .ink { fill: #f0efec; }
+  }
+</style>
+<rect width="640" height="340" rx="12" class="bg"/>
+<text class="title" x="56" y="26">Music mode fan curves · duty % vs CPU temperature</text>
+<line x1="56" x2="520" y1="292.0" y2="292.0" class="grid" stroke-width="1"/>
+<text x="48" y="296.0" text-anchor="end">0%</text>
+<line x1="56" x2="520" y1="230.0" y2="230.0" class="grid" stroke-width="1"/>
+<text x="48" y="234.0" text-anchor="end">25%</text>
+<line x1="56" x2="520" y1="168.0" y2="168.0" class="grid" stroke-width="1"/>
+<text x="48" y="172.0" text-anchor="end">50%</text>
+<line x1="56" x2="520" y1="106.0" y2="106.0" class="grid" stroke-width="1"/>
+<text x="48" y="110.0" text-anchor="end">75%</text>
+<line x1="56" x2="520" y1="44.0" y2="44.0" class="grid" stroke-width="1"/>
+<text x="48" y="48.0" text-anchor="end">100%</text>
+<text x="91.6923076923077" y="312" text-anchor="middle">30°C</text>
+<text x="163.0769230769231" y="312" text-anchor="middle">40°C</text>
+<text x="234.46153846153848" y="312" text-anchor="middle">50°C</text>
+<text x="305.8461538461538" y="312" text-anchor="middle">60°C</text>
+<text x="377.2307692307692" y="312" text-anchor="middle">70°C</text>
+<text x="448.6153846153846" y="312" text-anchor="middle">80°C</text>
+<text x="520.0" y="312" text-anchor="middle">90°C</text>
+<line x1="377.2307692307692" x2="377.2307692307692" y1="44" y2="292" class="limit" stroke-width="1.5" stroke-dasharray="4 4"/>
+<text x="369.2307692307692" y="60" text-anchor="end">Guard: Stock after 10 s above 70°C</text>
+<text x="369.2307692307692" y="76" text-anchor="end">Curves meet at 78°C → 100% at 85°C</text>
+<path d="M56.0,212.6 L91.7,212.6 L305.8,210.2 L377.2,180.4 L434.3,130.8 L484.3,44.0 L520.0,44.0" fill="none" class="s-case" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="91.7" cy="212.6" r="4" class="f-case ring" stroke-width="2"/>
+<circle cx="305.8" cy="210.2" r="4" class="f-case ring" stroke-width="2"/>
+<circle cx="377.2" cy="180.4" r="4" class="f-case ring" stroke-width="2"/>
+<circle cx="434.3" cy="130.8" r="4" class="f-case ring" stroke-width="2"/>
+<circle cx="484.3" cy="44.0" r="4" class="f-case ring" stroke-width="2"/>
+<path d="M56.0,230.0 L91.7,230.0 L305.8,222.6 L377.2,192.8 L434.3,130.8 L484.3,44.0 L520.0,44.0" fill="none" class="s-cpu" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="91.7" cy="230.0" r="4" class="f-cpu ring" stroke-width="2"/>
+<circle cx="305.8" cy="222.6" r="4" class="f-cpu ring" stroke-width="2"/>
+<circle cx="377.2" cy="192.8" r="4" class="f-cpu ring" stroke-width="2"/>
+<circle cx="434.3" cy="130.8" r="4" class="f-cpu ring" stroke-width="2"/>
+<circle cx="484.3" cy="44.0" r="4" class="f-cpu ring" stroke-width="2"/>
+<text class="lab" x="305.8461538461538" y="200.16" text-anchor="middle">Case 33%</text>
+<text class="lab" x="305.8461538461538" y="242.56" text-anchor="middle">CPU 28%</text>
+<line x1="540" x2="558" y1="64" y2="64" class="s-cpu" stroke-width="2"/>
+<circle cx="549" cy="64" r="4" class="f-cpu ring" stroke-width="2"/>
+<text x="566" y="68" class="ink">CPU fan</text>
+<line x1="540" x2="558" y1="86" y2="86" class="s-case" stroke-width="2"/>
+<circle cx="549" cy="86" r="4" class="f-case ring" stroke-width="2"/>
+<text x="566" y="90" class="ink">Case fan</text>
+</svg>
