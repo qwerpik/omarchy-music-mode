@@ -38,8 +38,8 @@ Both use the CPU temperature (`temp1` / Tctl) as the source and the
 
 | °C | Music CPU Fan | Music Case Fan |
 | ---: | ---: | ---: |
-| 30 | 25 % | 32 % |
-| 60 | 28 % | 33 % |
+| 30 | 20 % | 32 % |
+| 60 | 22 % | 33 % |
 | 70 | 40 % | 45 % |
 | 78 | 65 % | 65 % |
 | 85 | 100 % | 100 % |
@@ -80,6 +80,7 @@ music-mode stock
 | `MUSIC_MODE_USER` | `CCAdmin` | music-mode |
 | `MUSIC_MODE_MUSIC` / `MUSIC_MODE_STOCK` | `Music` / `Stock` | music-mode |
 | `MUSIC_MODE_PASSWORD_FILE` | `~/.config/music-mode/password` | music-mode |
+| `MUSIC_MODE_POWER_PROFILE` | `power-saver` (empty = leave the power profile alone) | music-mode |
 | `MUSIC_GUARD_LIMIT` | `70` (°C) | guard |
 | `MUSIC_GUARD_HOLD` | `10` (s) | guard |
 | `MUSIC_GUARD_INTERVAL` | `2` (s) | guard |

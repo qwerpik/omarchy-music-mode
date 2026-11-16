@@ -118,6 +118,13 @@ Bind it to a key if you like — Omarchy:
   activates one and prints JSON the widget understands.
 - **The widget** polls every 5 s, so changes made in the CoolerControl app show up
   too, and refreshes instantly over Quickshell IPC after a toggle.
+- **Power profile:** Music also switches power-profiles-daemon to `power-saver`,
+  and Stock puts back the profile you had before (unless you changed it yourself
+  in between). This matters more than the curves: on the reference machine a
+  2-thread load stayed at 51 °C with both fans on their floor, while on
+  `performance` the same load hit 73 °C in 10 s and the fans ramped up.
+  `MUSIC_MODE_POWER_PROFILE=balanced` picks another profile, and an empty value
+  leaves the profile alone.
 - **music-mode-guard** only ever moves you *to* Stock, never away from it.
   It picks sensors automatically (`k10temp` Tccd1 → Tctl, Intel `coretemp`,
   `amdgpu` edge); override with `MUSIC_GUARD_CPU` / `MUSIC_GUARD_GPU`.
@@ -128,13 +135,13 @@ see the [reference table](docs/COOLERCONTROL.md#configuration-reference).
 ## The curves
 
 <p align="center">
-  <img src="assets/fan-curves.svg" alt="Music mode fan curves: CPU fan 25% at 30°C, 28% at 60°C, 40% at 70°C, 65% at 78°C, 100% at 85°C; case fan 32%, 33%, 45%, 65%, 100% at the same points" width="640" />
+  <img src="assets/fan-curves.svg" alt="Music mode fan curves: CPU fan 20% at 30°C, 22% at 60°C, 40% at 70°C, 65% at 78°C, 100% at 85°C; case fan 32%, 33%, 45%, 65%, 100% at the same points" width="640" />
 </p>
 
 | °C | CPU fan | Case fan |
 | ---: | ---: | ---: |
-| 30 | 25 % | 32 % |
-| 60 | 28 % | 33 % |
+| 30 | 20 % | 32 % |
+| 60 | 22 % | 33 % |
 | 70 | 40 % | 45 % |
 | 78 | 65 % | 65 % |
 | 85 | 100 % | 100 % |
@@ -142,7 +149,14 @@ see the [reference table](docs/COOLERCONTROL.md#configuration-reference).
 Nearly flat until 60 °C, then a normal curve — smoothed by a CoolerControl
 function (4 s response delay, 3 °C deviance, 3 % max step) so the fans don't
 audibly hunt. These are the values from the reference machine (Ryzen 5 5600X,
-RX 7600 XT, MSI nct6687 board). Tune them to your fans.
+RX 7600 XT, MSI nct6687 board). There the CPU fan restarts from a standstill at
+16 %, so 20 % (about 530 RPM) keeps a margin. The case fan needs 30 % to restart,
+so it stays at 32 % (about 700 RPM). Tune them to your fans.
+
+At idle a desk microphone picked up Music about 4–5 dB quieter than Stock
+(unweighted, quietest 10 % of 100 ms frames, two runs each). The bigger
+difference shows up under load, when Stock or the `performance` profile ramps
+the CPU fan to about 2000 RPM.
 
 ## Uninstall
 

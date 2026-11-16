@@ -16,7 +16,7 @@
       "p_type": "Graph",
       "temp_source": "CPU temp1 (Tctl)",
       "function": "Music Smooth",
-      "speed_profile": [[30, 25], [60, 28], [70, 40], [78, 65], [85, 100]]
+      "speed_profile": [[30, 20], [60, 22], [70, 40], [78, 65], [85, 100]]
     },
     {
       "name": "Music Case Fan",

@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Toggle CoolerControl between the "Stock" and "Music" modes.
+# Music also switches the power profile to a cooler one and puts the old one back on Stock.
 # Usage: music-mode [status|toggle|music|stock]
 set -euo pipefail
 
@@ -8,6 +9,9 @@ user=${MUSIC_MODE_USER:-CCAdmin}
 music_name=${MUSIC_MODE_MUSIC:-Music}
 stock_name=${MUSIC_MODE_STOCK:-Stock}
 password_file=${MUSIC_MODE_PASSWORD_FILE:-${XDG_CONFIG_HOME:-$HOME/.config}/music-mode/password}
+# Power profile while Music is on; empty leaves the power profile alone.
+music_profile=${MUSIC_MODE_POWER_PROFILE-power-saver}
+profile_state=${XDG_STATE_HOME:-$HOME/.local/state}/music-mode/power-profile
 
 case "${1:-status}" in
   status|toggle|music|stock) ;;
@@ -31,10 +35,33 @@ current=$(jq -r .current_mode_uid <<<"$active")
 
 activate() { curl -sf -b "$jar" -X POST "$api/modes-active/$1" -o /dev/null; }
 
+# Remember the profile we replaced, and only put it back if nobody changed the profile since.
+profile_music() {
+  [[ -n $music_profile ]] && command -v powerprofilesctl >/dev/null || return 0
+  local now; now=$(powerprofilesctl get 2>/dev/null) || return 0
+  [[ $now == "$music_profile" ]] && return 0
+  powerprofilesctl set "$music_profile" 2>/dev/null || return 0
+  mkdir -p "${profile_state%/*}"
+  printf '%s %s\n' "$now" "$music_profile" >"$profile_state"
+}
+profile_stock() {
+  [[ -r $profile_state ]] && command -v powerprofilesctl >/dev/null || return 0
+  local previous ours now
+  read -r previous ours <"$profile_state" || true
+  # Keep the state file when the restore fails, so the next Stock switch can try again.
+  now=$(powerprofilesctl get 2>/dev/null) || return 0
+  if [[ -n $previous && $now == "$ours" ]]; then
+    powerprofilesctl set "$previous" 2>/dev/null || return 0
+  fi
+  rm -f "$profile_state"
+}
+to_music() { activate "$music_uid"; profile_music; }
+to_stock() { activate "$stock_uid"; profile_stock; }
+
 case "${1:-status}" in
-  toggle) if [[ $current == "$music_uid" ]]; then activate "$stock_uid"; else activate "$music_uid"; fi ;;
-  music) activate "$music_uid" ;;
-  stock) activate "$stock_uid" ;;
+  toggle) if [[ $current == "$music_uid" ]]; then to_stock; else to_music; fi ;;
+  music) to_music ;;
+  stock) to_stock ;;
 esac
 
 if [[ ${1:-status} != status ]]; then
